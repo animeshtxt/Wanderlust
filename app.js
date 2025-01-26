@@ -70,39 +70,10 @@ async function main() {
 };
 
 
-
-
-
-
 app.get("/",  (req, res) => {
     res.send("Hello I am root");
 });
 
-
-app.get("/testuser", async (req, res)=>{
-    let testUser = new User({
-        email: "testuser@gmail.com",
-        username: "test-user"
-    });
-
-    let registeredUser = await User.register(testUser, "testpassword");
-    res.send(registeredUser);
-});
-
-
-app.get("/testListing", wrapAsync( async (req, res) => {
-    let sampleListing = new Listing ({
-        title: "My New Villa",
-        description: "By the beach",
-        price: 1200,
-        location: "Calangute, Goa",
-        country: "India",
-    });
-
-    await sampleListing.save();
-    console.log("sample was saved");
-    res.send("Successful testing");
-}));
 
 app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Page not found !"));

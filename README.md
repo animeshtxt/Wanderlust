@@ -1,2 +1,2 @@
 # WANDERLUST
-  This is my first Full Stack Web Development Project
+  A fullstack website for short-term and long-term homestays marketplace.
