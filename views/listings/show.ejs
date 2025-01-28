@@ -1,9 +1,9 @@
 <% layout("/layouts/boilerplate") %>
 <div class="row mt-3">
-    <div class="col-10 sm-col-6 offset-1 sm-offset-3">
+    <div class="col-10 col-sm-6 offset-1 offset-sm-3">
         <h3><%= listing.title %> </h3>
     </div>
-    <div class="card listing-card col-10 offset-1 sm-col-8 sm-offset-2">
+    <div class="card listing-card col-10 offset-1 col-sm-6 offset-sm-3">
         <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
         
         <div class="card-body">
@@ -17,14 +17,14 @@
     </div>
         <br>
         <% if(currUser && currUser._id.equals(listing.owner._id)) {%>
-        <div class="btns d-flex justify-content-start col-6 offset-2">
+        <div class="btns d-flex justify-content-start col-6 offset-3">
             <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark ">Edit</a>
             <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
                 <button class="btn btn-dark mx-4">DELETE</button>
             </form>
         </div>
         <% } %>
-        <div class="col-10 sm-col-8 offset-1 sm-offset-2 mb-3">
+        <div class="col-10 col-sm-6 offset-1 offset-sm-3 mb-3">
             <% if(currUser){ %>
             <hr>
             <h4>Leave a Review</h4>
@@ -56,12 +56,13 @@
                 <button class="btn btn-outline-dark">Submit</button>
             </form>
             <% } %>
-            <hr>
-
-            <h4>All Reviews</h4>
-            <div class="row">
-                <% for(review of listing.reviews){ %>
-                <div class="card  col-4 sm-col-6 m-1 offset-2" style="background-color: #f3f0f0;">
+            
+            
+            <% if(listing.reviews.length > 0) {%>
+            <hr><h4>All Reviews</h4>
+            <div class="row "> 
+            <%  for(review of listing.reviews){ %>
+                <div class="card col-8 offset-2 col-sm-5 m-1 " style="background-color: #f3f0f0;">
                     <div class="card-body ">
                     <p>By @<i><%= review.author.username %></i></p>
                     <h6 class="card-subtitle mb-2 text-body-secondary"><%= review.comment %></h6>
@@ -71,8 +72,10 @@
                     <form action="/listings/<%=listing._id %>/reviews/<%=review._id%>?_method=DELETE" method="POST"><button class="btn btn-sm btn-dark m-1">Delete</button></form>
                     <% } %>
                 </div>
-                <% } %>
+            
+            <% } %>
             </div>
+            <% } %>
         </div>
     
 </div>
