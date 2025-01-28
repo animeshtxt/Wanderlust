@@ -15,11 +15,12 @@ router.route("/new")
 .post(isLoggedIn,  upload.single('listing[image]'), validateListing,wrapAsync(listingControllers.createListing ));
 
 
-router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync( listingControllers.editListingForm));
+router.route("/:id/edit")
+  .get(isLoggedIn, isOwner, wrapAsync( listingControllers.editListingForm))
+  .put(isLoggedIn, isOwner, upload.single('listing[image]'), validateListing, wrapAsync(listingControllers.updateListing))
 
 router.route("/:id")
   .get(wrapAsync( listingControllers.showListing))
-  .put(wrapAsync(listingControllers.updateListing))
   .delete( isLoggedIn, isOwner,  wrapAsync(listingControllers.destroyListing));
 
 module.exports = router;

@@ -14,7 +14,6 @@ module.exports.createLisitingForm = (req, res) => {
 module.exports.createListing = async (req, res) => {
     const filename = req.file.filename;
     const url = req.file.path;
-    console.log(url, "...", filename);
     let result = listingsSchema.validate(req.body);
     console.log(result);
     if(result.error){
@@ -48,14 +47,22 @@ module.exports.editListingForm = async (req, res) => {
         req.flash("error", "Listing you requested for does not exist!");
         res.redirect("/listings");
     }else{
-        res.render("listings/edit.ejs" , {listing});
+        let originalImageUrl = listing.image.url;
+        originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250");
+        res.render("listings/edit.ejs" , {listing, originalImageUrl});
     }
    
 };
 
 module.exports.updateListing = async (req, res) => {
-    let {id} = req.params;
-    await Listing.findByIdAndUpdate(id, {...req.body.listing, "image.url": req.body.listing["image.url"]});
+    let {id} = req.params;    
+    let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing});
+    if(typeof req.file !== "undefined"){
+        const filename = req.file.filename;
+        const url = req.file.path;
+        listing.image = {url, filename};
+        await listing.save();
+    }
     req.flash("success", "Listing Updated!");
     res.redirect(`/listings/${id}`);
 };
