@@ -77,7 +77,7 @@ async function main() {
 
 
 app.get("/",  (req, res) => {
-    res.send("Hello I am root");
+    res.redirect("/listings");
 });
 
 

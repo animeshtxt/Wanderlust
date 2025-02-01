@@ -15,4 +15,25 @@
         form.classList.add('was-validated')
       }, false)
     })
-  })()
+  })();
+
+let taxInfo = document.getElementsByClassName("tax-info");
+let taxSwitch = document.getElementById("tax-switch");
+let taxSwitchLabel = document.getElementById("tax-switch-label");
+const toggleTaxDisplay = ()=>{
+  for(tax of taxInfo){
+    if(tax.style.display === 'none'){
+      tax.style.display = 'block';
+    }else{
+      tax.style.display = 'none'
+    }
+  }
+};
+
+taxSwitchLabel.addEventListener("click", ()=> {
+  toggleTaxDisplay()
+});
+
+taxSwitch.addEventListener("click", ()=> {
+  toggleTaxDisplay()
+});

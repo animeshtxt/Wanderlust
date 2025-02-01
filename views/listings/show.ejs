@@ -11,7 +11,7 @@
         <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
         
         <div class="card-body">
-            <p class="card-text mt-1">Owned by <i>@<%= listing.owner.username %></i></p> 
+            <p class="card-text mt-1">Hosted by <i>@<%= listing.owner.username %></i></p> 
             <p class="card-text"><%= listing.description %> </p>
             <p class="card-text"> &#8377; <%= listing.price.toLocaleString("en-IN") %> </p><p class="card-text">
                 <%= listing.location%> </p> <p class="card-text">
@@ -35,9 +35,6 @@
             <h4>Leave a Review</h4>
             <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
                 <div class="my-3 form-group">
-                    <!-- <label for="rating" class="form-label">Rating</label><br>
-                    <input type="range" name="review[rating]" id="rating" min="1" max="5" class=" form-control-range" oninput="this.nextElementSibling.value = this.value">
-                    <output>3</output><span> Stars</span> -->
                     <fieldset class="starability-slot">
                         <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
                         <input type="radio" id="first-rate1" name="review[rating]" value="1" />

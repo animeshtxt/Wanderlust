@@ -1,9 +1,57 @@
 <% layout("/layouts/boilerplate") %>
 <body class="plus-jakarta-sans">
-    <h3>All listings</h3>
-    <!-- <form action="/listings/new" method="GET">
-        <button>Create New Listings</button>
-    </form> -->
+    <div class="quick-btns row justify-content-between flex-column flex-sm-row align-items-center ">
+        <div id="filter" class="col-11 col-sm-7 d-flex flex-row align-items-center p-1 m-1" >
+            <div class="filters text-center">
+                <div><i class="fa-solid fa-mountain"></i></div>
+                <p>Mountain</p>
+            </div>
+            <div class="filters text-center mx-4">
+                <div><i class="fa-solid fa-person-swimming"></i></div>
+                <p>Amazing pools</p>
+            </div>
+            <div class="filters text-center mx-4">
+                <div><i class="fa-solid fa-city"></i></div>
+                <p>Top cities</p>
+            </div>
+            <div class="filters text-center mx-4">
+                <div><i class="fa-solid fa-cow"></i></div>
+                <p>Farms</p>
+            </div>
+            <div class="filters text-center mx-4">
+                <div><i class="fa-regular fa-snowflake"></i></div>
+                <p>Arctic</p>
+            </div>
+            <div class="filters text-center mx-4">
+                <div><i class="fa-solid fa-umbrella-beach"></i></div>
+                <p>Beach</p>
+            </div>
+            <div class="filters text-center mx-4">
+                <div><i class="fa-solid fa-fire"></i></div>
+                <p>Trending</p>
+            </div>
+            <div class="filters text-center mx-4">
+                <div><i class="fa-solid fa-user-astronaut"></i></i></div>
+                <p>OMG!</p>
+            </div>
+            <div class="filters text-center mx-4">
+                <div><i class="fa-solid fa-key"></i></div>
+                <p>New</p>
+            </div>
+            <div class="filters text-center mx-4">
+                <div><i class="fa-solid fa-campground"></i></div>
+                <p>Camping</p>
+            </div>
+        </div>
+        <div class="col-6 col-sm-4">
+            <div class="form-check-reverse form-switch border border-black rounded d-flex flex-nowrap align-items-center justify-content-center" id="tax-switch">
+                <label class="form-check-label text-nowrap m-1" for="flexSwitchCheck" id="tax-switch-label">Display tax </label>
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck" >
+                
+            </div>
+        </div>
+        
+    </div>
     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
         <% for(let listing of allListings){ %>
             <a href="/listings/<%= listing._id %>" class="listing-link">
@@ -14,8 +62,9 @@
                     <div class="card-body">
                         <p class="card-text">
                             <b><%= listing.title %></b> <br>
-                            &#8377; <%= listing.price.toLocaleString("en-IN") %> /night
+                            &#8377; <%= listing.price.toLocaleString("en-IN") %> /night <span class="tax-info" style="display: none;" >&nbsp;&nbsp; +18% GST</span>
                         </p>
+                        
                     </div>
                 </div>
             </a>
