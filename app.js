@@ -15,6 +15,7 @@ const listingRouter = require("./routes/listings.js");
 const reviewRouter = require("./routes/reviews.js");
 const userRouter = require("./routes/users.js");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const User = require("./models/user.js");
 const passport = require("passport");
@@ -22,10 +23,24 @@ const LocalStrategy = require("passport-local");
 const multer  = require('multer')
 const upload = multer({ dest: 'listing images/' })
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust"
+// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const DB_URL = process.env.ATLAS_DB_URL;
+
+const store = MongoStore.create({
+    mongoUrl: DB_URL,
+    crypto: {
+        secret: process.env.SECRET,
+    },
+    touchAfter: 24 * 3600,
+  });
+
+store.on("error", (err)=>{
+    console.log("ERROR IN MONGO SESSION STORE", err)
+})
 
 const sessionOptions = {
-    secret: "mysupersecretkey",
+    store,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -34,6 +49,8 @@ const sessionOptions = {
         httpOnly: true,
     },
 };
+
+
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -72,7 +89,7 @@ main()
 });
 
 async function main() {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(DB_URL);
 };
 
 

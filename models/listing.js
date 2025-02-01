@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Review = require("./review.js");
-
+const cloudinary = require("cloudinary").v2;
 const listingSchema = new Schema (
     {
         title: {
@@ -16,6 +16,10 @@ const listingSchema = new Schema (
             url: {
               type: String,
             },
+            public_id: {
+              type: String,
+              default: null,
+            }
           }, 
         price: Number,
         location: String,
@@ -46,7 +50,14 @@ const listingSchema = new Schema (
 
 listingSchema.post("findOneAndDelete", async(listing) => {
   if(listing){
-    await Review.deleteMany({_id : {$in : listing.reviews}})
+    await Review.deleteMany({_id : {$in : listing.reviews}});
+    if(listing.image && listing.image.filename){
+      console.log("public_url : "+listing.image.filename);
+      const public_id = listing.image.filename;
+      const result = await cloudinary.uploader.destroy(public_id);
+      console.log("Image with public_id "+public_id+"deleted/n"+result);
+    }
+    
   }
   
 })

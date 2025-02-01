@@ -4,6 +4,8 @@ const mapToken = process.env.MAP_TOKEN;
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding') ;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
+const cloudinary = require('../cloudConfig.js');
+
 module.exports.showAllListings = async(req, res) => {
     let allListings = await Listing.find({});
     res.render("./listings/index.ejs", {allListings});
@@ -23,7 +25,8 @@ module.exports.createListing = async (req, res) => {
         
       console.log(locResponse.body.features[0]);
     //   res.send(locResponse.body.features[0].geometry);
-
+      console.log(req.file);
+    //   res.send(req.file);
     const filename = req.file.filename;
     const url = req.file.path;
     let result = listingsSchema.validate(req.body);
@@ -71,12 +74,22 @@ module.exports.editListingForm = async (req, res) => {
 module.exports.updateListing = async (req, res) => {
     let {id} = req.params;    
     let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing});
+    const locResponse = await geocodingClient.forwardGeocode({
+        query: req.body.listing.location,
+        limit: 1,
+      })
+    .send();
     if(typeof req.file !== "undefined"){
         const filename = req.file.filename;
         const url = req.file.path;
-        listing.image = {url, filename};
+        const publicId = req.file.
+        listing.image = {url, filename, publicUrl};
         await listing.save();
     }
+    listing.geometry = locResponse.body.features[0].geometry ;
+
+    const savedListing = await listing.save();
+    console.log(savedListing);
     req.flash("success", "Listing Updated!");
     res.redirect(`/listings/${id}`);
 };
