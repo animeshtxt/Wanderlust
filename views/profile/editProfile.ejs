@@ -1,0 +1,220 @@
+<% layout("/layouts/boilerplate") %>
+<div class="row">
+  <div class="col-8 offset-2">
+    <h3>Edit your Profile :</h3>
+    <form
+      action="/profile/<%= userDetails.username %>/edit?_method=PUT"
+      method="POST"
+      novalidate
+      class="needs-validation"
+      enctype="multipart/form-data"
+    >
+      <h5 class="mt-4">Personal details:</h5>
+      <div class="mb-3">
+        <label for="fullName" class="form-label">Full Name : </label>
+        <input
+          id="title"
+          class="form-control"
+          type="text"
+          name="user[fullName]"
+          value="<%= userDetails.fullName %>"
+          required
+        />
+        <div class="invalid-feedback">Please enter your name</div>
+      </div>
+      <div class="mb-3">
+        <label for="gender" class="form-label">Gender : </label>
+        <input
+          id="title"
+          class="form-control"
+          type="text"
+          name="user[about.gender]"
+          value="<%= userDetails.about.gender %>"
+          required
+        />
+        <div class="invalid-feedback">Please enter your gender</div>
+      </div>
+      <div class="mb-3">
+        <label for="profession" class="form-label">Profession : </label>
+        <input
+          id="profession"
+          class="form-control"
+          type="text"
+          name="user[about.profession]"
+          value="<%= userDetails.about.profession %>"
+          required
+        />
+        <div class="invalid-feedback">Please enter your gender</div>
+      </div>
+      <div class="mb-3">
+        <label for="greeting" class="form-label">Your greetings : </label>
+        <textarea
+          id="greeting"
+          class="form-control"
+          name="user[about.greeting]"
+          required
+        >
+<%= userDetails.about.greeting %></textarea
+        >
+        <div class="invalid-feedback">
+          Please write how you want to greet people.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">About yourself : </label>
+        <textarea
+          id="aboutUser"
+          class="form-control"
+          name="user[about.introduction]"
+          required
+        >
+<%= userDetails.about.introduction %></textarea
+        >
+        <div class="invalid-feedback">
+          Please write something about yourself.
+        </div>
+      </div>
+
+      <div>
+        <label for="">Original Profile Image :</label><br />
+        <img
+          src="<%= userDetails.profileImage.url %>"
+          alt="userDetails_image"
+          class="edit-img img-fluid mt-4"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="profileImage" class="form-label"
+          >Upload New Profile Image :
+        </label>
+        <input
+          id="profileImage"
+          class="form-control"
+          type="file"
+          name="user[profileImage]"
+        />
+      </div>
+      <div class="row">
+        <div class="mb-3 col-md-8">
+          <label for="price" class="form-label">Languages you speak :</label>
+          <input
+            name="user[about.languages]"
+            id="price"
+            class="form-control"
+            value="<%= userDetails.about.languages %>"
+            required
+          />
+          <div class="invalid-feedback">Enter your language</div>
+        </div>
+        <div class="mb-3 col-md-8">
+          <label for="city" class="form-label">City/Town:</label>
+          <input
+            type="text"
+            name="user[address.city]"
+            placeholder="Enter City/Town"
+            id="city"
+            class="form-control"
+            value="<%= userDetails.address.city %>"
+            required
+          />
+          <div class="invalid-feedback">Enter your city name.</div>
+        </div>
+        <div class="mb-3 col-md-8">
+          <label for="state" class="form-label">State:</label>
+          <input
+            type="text"
+            name="user[address.state]"
+            placeholder="Enter State"
+            id="state"
+            class="form-control"
+            value="<%= userDetails.address.state %>"
+            required
+          />
+          <div class="invalid-feedback">Enter your state name.</div>
+        </div>
+        <div class="mb-3 col-md-8">
+          <label for="pincode" class="form-label">Pin code:</label>
+          <input
+            type="text"
+            name="user[address.pinCode]"
+            placeholder="Enter pincode"
+            id="pincode"
+            class="form-control"
+            value="<%= userDetails.address.pinCode %>"
+            required
+          />
+          <div class="invalid-feedback">Enter your pin code.</div>
+        </div>
+        <div class="mb-3 col-md-8">
+          <label for="country" class="form-label">Country:</label>
+          <input
+            type="text"
+            name="user[address.country]"
+            placeholder="Enter country"
+            id="country"
+            class="form-control"
+            value="<%= userDetails.address.country %>"
+            required
+          />
+          <div class="invalid-feedback">Enter your country name.</div>
+        </div>
+        <hr />
+        <h5>Social media links:</h5>
+        <div class="mb-3 col-md-8">
+          <label for="facebookId" class="form-label"
+            >Facebook profile link:</label
+          >
+          <input
+            type="text"
+            name="user[about.facebookId]"
+            placeholder="Enter facebook profile"
+            id="facebookId"
+            class="form-control"
+            value="<%= userDetails.about.facebookId %>"
+          />
+        </div>
+        <div class="mb-3 col-md-8">
+          <label for="instagramId" class="form-label"
+            >Instagram profile link:</label
+          >
+          <input
+            type="text"
+            name="user[about.instagramId]"
+            placeholder="Enter instagram profile"
+            id="instagramId"
+            class="form-control"
+            value="<%= userDetails.about.instagramId %>"
+          />
+        </div>
+        <div class="mb-3 col-md-8">
+          <label for="linkedinId" class="form-label"
+            >Linkedin profile link:</label
+          >
+          <input
+            type="linkedinId"
+            name="user[about.linkedinId]"
+            placeholder="Enter linkedin profile"
+            id="country"
+            class="form-control"
+            value="<%= userDetails.about.linkedinId %>"
+          />
+        </div>
+        <div class="mb-3 col-md-8">
+          <label for="youtubeId" class="form-label"
+            >Youtube channel link:</label
+          >
+          <input
+            type="text"
+            name="user[about.youtubeId]"
+            placeholder="Enter youtube channel link"
+            id="youtubeId"
+            class="form-control"
+            value="<%= userDetails.about.youtubeId %>"
+          />
+        </div>
+      </div>
+      <button class="btn btn-dark add-btn">Save</button>
+      <br /><br />
+    </form>
+  </div>
+</div>

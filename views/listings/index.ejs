@@ -1,5 +1,18 @@
 <% layout("/layouts/boilerplate") %>
 <body class="plus-jakarta-sans">
+    <div class="listing-search-bar ms-auto d-sm-none d-inline mt-1">
+        <form class="d-flex" role="search">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search destinations"
+            aria-label="Search"
+          />
+          <button class="btn btn-danger text-nowrap" type="submit">
+            <i class="fa-solid fa-magnifying-glass d-inline"></i>
+          </button>
+        </form>
+    </div>
     <div class="quick-btns row justify-content-between flex-column flex-sm-row align-items-center ">
         <div id="filter" class="col-11 col-sm-7 d-flex flex-row align-items-center p-1 m-1" >
             <div class="filters text-center">

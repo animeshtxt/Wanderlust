@@ -1,48 +1,111 @@
-<nav class="navbar navbar-expand-sm bg-body-light border-bottom sticky-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
-      <button 
-        class="navbar-toggler" 
-        type="button" 
-        data-bs-toggle="collapse" 
-        data-bs-target="#navbarNavAltMarkup" >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link "  href="/listings">Explore</a>
-          
-        </div>
-        <div class="search-bar ms-auto">
-            <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search destinations" aria-label="Search">
-            <button class="btn btn-danger text-nowrap" type="submit"><i class="fa-solid fa-magnifying-glass d-inline"></i>&nbsp; Search</button>
-          </form>
-        </div>
-        <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="/listings/new">Add Your Listing</a>
-          <div class="btn-group">
-            <button type="button" class="btn  dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa-solid fa-user-large"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end p-2"><% if (!currUser) { %>
-              <li><a class="nav-link" href="/login"><b>Log in</b></a></li>
-              <li><a class="nav-link" href="/signup"><b>Sign up</b></a></li>
-          <% } %>
-          <% if (currUser) { %>
-            <li><a class="nav-link" href="/profile">My Profile</a></li>
-            <li><a class="nav-link" href="/profile?q=listings">My Listings</a></li>
-            <li><a class="nav-link" href="/profile?q=bookings">My Bookings</a></li>
-            <hr>
-            <li><a class="nav-link" href="/logout"><b>Log out</b></a></li>
-              
-          <% } %>
-              
-            </ul>
-          </div>   
-          
-        </div>   
-        
+<nav
+  class="navbar navbar-expand-sm bg-body-light border-bottom sticky-top mb-2"
+>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/listings"
+      ><i class="fa-regular fa-compass"></i
+    ></a>
+    <!-- <button
+      class="navbar-toggler ms-auto"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button> -->
+    <div class="d-flex me-auto" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/listings">Explore</a>
+      </div>
+      <div class="search-bar ms-auto d-none d-sm-inline">
+        <form class="d-flex" role="search">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search destinations"
+            aria-label="Search"
+          />
+          <button class="btn btn-danger text-nowrap" type="submit">
+            <i class="fa-solid fa-magnifying-glass d-inline"></i>&nbsp; Search
+          </button>
+        </form>
+      </div>
+      <div class="navbar-nav ms-3">
+        <a class="nav-link" href="/listings/new">Add Your Listing</a>
       </div>
     </div>
+    <div class="btn-group nav-dropdown me-4">
+      <button
+        type="button"
+        class="btn btn-light dropdown-toggle p-0"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <!-- <i class="fa-solid fa-user-large"></i> -->
+        <% if(currUser){%>
+        <img
+          src="<%=currUser.profileImage.url%>"
+          alt=""
+          alt=""
+          style="
+            height: 30px;
+            width: 30px;
+            border: 0.5px solid black;
+            border-radius: 50%;
+          "
+        /><%}else{%>
+        <i
+          class="fa-solid fa-circle-user"
+          style="font-size: 2rem; color: chocolate"
+        ></i>
+        <%}%>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end p-2">
+        <% if (!currUser) { %>
+
+        <li>
+          <a class="nav-link m-2" href="/login"><b>Log in</b></a>
+        </li>
+        <li>
+          <a class="nav-link m-2" href="/signup"><b>Sign up</b></a>
+        </li>
+        <% } %> <% if (currUser) { %>
+        <p>
+          <img
+            src="<%= currUser.profileImage.url %>"
+            alt=""
+            style="
+              height: 50px;
+              width: 50px;
+              border: 0.5px solid black;
+              border-radius: 50%;
+            "
+          />&nbsp;&nbsp;&nbsp;<%= currUser.username %>
+        </p>
+        <hr />
+        <li>
+          <a
+            class="nav-link"
+            href="/profile/<%=
+          currUser.username %>"
+            >My Profile</a
+          >
+        </li>
+        <!-- <li>
+          <a class="nav-link" href="/profile?q=listings">My Listings</a>
+        </li>
+        <li>
+          <a class="nav-link" href="/profile?q=bookings">My Bookings</a>
+        </li> -->
+        <hr />
+        <li>
+          <a class="nav-link" href="/logout" style="color: red !important"
+            ><b>Log out</b></a
+          >
+        </li>
+
+        <% } %>
+      </ul>
+    </div>
+  </div>
 </nav>

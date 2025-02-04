@@ -1,0 +1,103 @@
+<% layout("/layouts/boilerplate") %>
+<div class="row mt-4 d-flex flex-column flex-lg-row justify-content-center">
+  <div class="profile-section col-12 col-lg-10 offset-md-1 d-flex flex-sm-row flex-column  justify-content-between">
+    <div class="card profile" style="width: 80%; margin: auto;">
+     <div class="m-2">
+        <div class="text-center pt-4">
+            <img
+              src=<%= userDetails.profileImage.url %>
+              class=""
+              style="width: 100px; height: 100px; border-radius: 50%; border: 0.5px solid black"
+              alt="..."
+            />
+          </div>
+          <div class="card-body">
+            <h3 class="card-title text-center m-0"><%= userDetails.fullName %></h3>
+            <p class="text-center pt-1"><% if(currUser &&
+              currUser.username === userDetails.username ){ console.log(currUser)
+              %>
+            <span><a href="/profile/<%= userDetails.username %>/edit" style="text-decoration: none;"><i class="fa-solid fa-pen"></i>&nbsp;&nbsp;Edit Profile</a></span>
+            <% } %></p>
+           
+          </div>
+          <hr />
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i class="fa-solid fa-circle-check" style="color: green;"></i>&nbsp;&nbsp;&nbsp;&nbsp;Government ID Verified</li>
+            <li class="list-group-item"><i class="fa-solid fa-circle-check" style="color: green;"></i>&nbsp;&nbsp;&nbsp;&nbsp;Email ID Verified</li>
+            
+            <li class="list-group-item"><i class="fa-solid fa-circle-check" style="color: green;"></i>&nbsp;&nbsp;&nbsp;&nbsp;Phone No. Verified</li>
+          </ul>
+          <div class="card-body p-2 text-center f-1">
+            <a href="<%= userDetails.about.facebookId %>" class="card-link" target="_blank"><i class="fa-brands fa-facebook" style="font-size: 1.5rem;"></i></a>
+            <a href="<%= userDetails.about.instagramId %>" class="card-link" target="_blank"><i class="fa-brands fa-square-instagram" style="font-size: 1.5rem;"></i></a>
+            <a href="<%= userDetails.about.youtubeId %>" class="card-link" target="_blank"><i class="fa-brands fa-youtube" style="font-size: 1.5rem;"></i></i></a>
+            <a href="<%= userDetails.about.linkedinId %>" class="card-link" target="_blank"><i class="fa-brands fa-linkedin" style="font-size: 1.5rem;"></i></a>
+          </div>
+     </div>
+     
+    </div>
+    <div class="about-section" style="width: 100%">
+      <div class="card p-2 border border-0 m-2" >
+        <div class="card-body">
+          <h5 class="card-title ps-3"><%= userDetails.about.greeting %></h5>
+          <span class="ps-3"
+            >Joined on&nbsp;&nbsp; <%= new Date(userDetails.createdOn).toLocaleDateString("en-US", { 
+              year: "numeric", month: "long", day: "numeric" 
+            }) %> </span>
+          <p class="card-text ps-3 mt-2">
+            <%= userDetails.about.introduction %>
+          </p>
+        </div>
+        <div class="mt-4">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <i class="fa-solid fa-house"></i>&nbsp;&nbsp; Lives in <%= userDetails.address.city %>, <%= userDetails.address.state %>, <%= userDetails.address.country %>
+            <li class="list-group-item">
+              <i class="fa-solid fa-globe"></i>&nbsp;&nbsp; Speaks <%= userDetails.about.languages %>
+            </li>
+            <li class="list-group-item">
+              <i class="fa-solid fa-briefcase"></i>&nbsp;&nbsp; Work: <%= userDetails.about.profession %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lisitngs-container col-10 offset-1 d-flex justify-content-between p-2">
+   
+    <div class="listings mt-4 d-flex flex-column justify-content-center">
+      <% if(userListings.length != 0){ %>
+      <h2><%= userDetails.fullName %>'s Listings :</h2>
+      <%}else{%>
+        <a href="/listings/new"><button class="btn btn-success">Add Your Listings</button></a>
+        <%}%>
+      <div class="col-12 justify-content-between mt-3 ">
+        <div class="row ">
+          <% for(let listing of userListings){ %>
+          <a href="/listings/<%= listing._id %>" class="listing-link col-lg-4 col-sm-6 col-12 ">
+            <div class="card listing-card">
+              <img
+                src="<%= listing.image.url %> "
+                class="card-img-top"
+                alt="listing_image"
+                style="height: 20rem"
+              />
+              <div class="card-img-overlay">fhfdgjfngdjbng</div>
+
+              <div class="card-body">
+                <p class="card-text">
+                  <b><%= listing.title %></b> <br />
+                  &#8377; <%= listing.price.toLocaleString("en-IN") %> /night
+                  <span class="tax-info" style="display: none"
+                    >&nbsp;&nbsp; +18% GST </span>
+                </p>
+              </div>
+            </div>
+          </a>
+          <%} %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
