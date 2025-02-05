@@ -1,60 +1,72 @@
 <% layout("/layouts/boilerplate") %>
 <body class="plus-jakarta-sans">
-    <div class="listing-search-bar ms-auto d-sm-none d-inline mt-1">
-        <form class="d-flex" role="search">
+    <div class="listing-search-bar row ms-auto d-flex flex-column flex-sm-row align-items-center  mt-1">
+        <form class="d-flex col-sm-10 col-lg-8 offset-lg-2 offset-sm-1 col-12 align-items-center justify-content-center" role="search">
           <input
-            class="form-control me-2"
+            class="form-control me-2 " style="width: 60%;"
+            id="search-input"
+            name="search-input"
             type="search"
             placeholder="Search destinations"
             aria-label="Search"
           />
-          <button class="btn btn-danger text-nowrap" type="submit">
-            <i class="fa-solid fa-magnifying-glass d-inline"></i>
-          </button>
+         <div style="width: auto;" class="d-flex flex-nowrap me-2 " id="search-category-box">
+            <select name="search-category" id="search-category" class="form-select" aria-label="Default select example">
+                <option value="null" class="text-center" selected>--Select category--</option>\
+                <option value="location" class="text-center">Location</option>
+                <option value="country" class="text-center">Country</option>
+                <option value="location" class="text-center">Type</option>
+            </select>
+            <button class="btn btn-danger text-nowrap ms-2" type="submit">
+                <i class="fa-solid fa-magnifying-glass d-inline"></i>
+              </button>
+         </div>
+         
         </form>
     </div>
-    <div class="quick-btns row justify-content-between flex-column flex-sm-row align-items-center ">
+    <div class="quick-btns row justify-content-between flex-column flex-sm-row align-items-center p-1">
         <div id="filter" class="col-11 col-sm-7 d-flex flex-row align-items-center p-1 m-1" >
-            <div class="filters text-center">
-                <div><i class="fa-solid fa-mountain"></i></div>
-                <p>Mountain</p>
-            </div>
-            <div class="filters text-center mx-4">
-                <div><i class="fa-solid fa-person-swimming"></i></div>
-                <p>Amazing pools</p>
-            </div>
-            <div class="filters text-center mx-4">
-                <div><i class="fa-solid fa-city"></i></div>
-                <p>Top cities</p>
-            </div>
-            <div class="filters text-center mx-4">
-                <div><i class="fa-solid fa-cow"></i></div>
-                <p>Farms</p>
-            </div>
-            <div class="filters text-center mx-4">
-                <div><i class="fa-regular fa-snowflake"></i></div>
-                <p>Arctic</p>
-            </div>
-            <div class="filters text-center mx-4">
-                <div><i class="fa-solid fa-umbrella-beach"></i></div>
-                <p>Beach</p>
-            </div>
-            <div class="filters text-center mx-4">
-                <div><i class="fa-solid fa-fire"></i></div>
-                <p>Trending</p>
-            </div>
-            <div class="filters text-center mx-4">
-                <div><i class="fa-solid fa-user-astronaut"></i></i></div>
-                <p>OMG!</p>
-            </div>
-            <div class="filters text-center mx-4">
-                <div><i class="fa-solid fa-key"></i></div>
-                <p>New</p>
-            </div>
-            <div class="filters text-center mx-4">
-                <div><i class="fa-solid fa-campground"></i></div>
-                <p>Camping</p>
-            </div>
+                <div class="filters text-center"><a href="/listings?category=mountain" class="text-decoration-none text-body-secondary">
+                    <div><i class="fa-solid fa-mountain"></i></div>
+                    <p>Mountain</p></a>
+                </div>
+                <div class="filters text-center mx-4"><a href="/listings?category=pool" class="text-decoration-none text-body-secondary">
+                    <div><i class="fa-solid fa-person-swimming"></i></div>
+                    <p>Amazing pools</p></a>
+                </div>
+                <div class="filters text-center mx-4"><a href="/listings?category=city" class="text-decoration-none text-body-secondary">
+                    <div><i class="fa-solid fa-city"></i></div>
+                    <p>Top cities</p></a>
+                </div>
+                <div class="filters text-center mx-4"><a href="/listings?category=farm" class="text-decoration-none text-body-secondary">
+                    <div><i class="fa-solid fa-cow"></i></div>
+                    <p>Farms</p></a>
+                </div>
+                <div class="filters text-center mx-4"><a href="/listings?category=arctic" class="text-decoration-none text-body-secondary">
+                    <div><i class="fa-regular fa-snowflake"></i></div>
+                    <p>Arctic</p></a>
+                </div>
+                <div class="filters text-center mx-4"><a href="/listings?category=beach" class="text-decoration-none text-body-secondary">
+                    <div><i class="fa-solid fa-umbrella-beach"></i></div>
+                    <p>Beach</p></a>
+                </div>
+                <div class="filters text-center mx-4"><a href="/listings?category=trending" class="text-decoration-none text-body-secondary">
+                    <div><i class="fa-solid fa-fire"></i></div>
+                    <p>Trending</p></a>
+                </div>
+                <div class="filters text-center mx-4"><a href="/listings?category=omg" class="text-decoration-none text-body-secondary"></a>
+                    <div><i class="fa-solid fa-user-astronaut"></i></i></div>
+                    <p>OMG!</p>
+                </div>
+                <div class="filters text-center mx-4"><a href="/listings?category=new" class="text-decoration-none text-body-secondary">
+                    <div><i class="fa-solid fa-key"></i></div>
+                    <p>New</p></a>
+                </div>
+                <div class="filters text-center mx-4"><a href="/listings?category=camping" class="text-decoration-none text-body-secondary">
+                    <div><i class="fa-solid fa-campground"></i></div>
+                    <p>Camping</p></a>
+                </div>
+        
         </div>
         <div class="col-6 col-sm-4">
             <div class="form-check-reverse form-switch border border-black rounded d-flex flex-nowrap align-items-center justify-content-center" id="tax-switch">

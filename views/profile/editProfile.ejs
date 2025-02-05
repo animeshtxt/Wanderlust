@@ -1,6 +1,6 @@
 <% layout("/layouts/boilerplate") %>
 <div class="row">
-  <div class="col-8 offset-2">
+  <div class="col-sm-8 offset-sm-2 col-10 offset-1">
     <h3>Edit your Profile :</h3>
     <form
       action="/profile/<%= userDetails.username %>/edit?_method=PUT"
@@ -75,12 +75,13 @@
         </div>
       </div>
 
-      <div>
-        <label for="">Original Profile Image :</label><br />
+      <div class="mb-3">
+        <label for="">Original Profile Image :</label>
+        <br />
         <img
           src="<%= userDetails.profileImage.url %>"
           alt="userDetails_image"
-          class="edit-img img-fluid mt-4"
+          class="edit-img img-fluid mt-2"
         />
       </div>
       <div class="mb-3">

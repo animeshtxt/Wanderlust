@@ -40,10 +40,6 @@
       <div class="card p-2 border border-0 m-2" >
         <div class="card-body">
           <h5 class="card-title ps-3"><%= userDetails.about.greeting %></h5>
-          <span class="ps-3"
-            >Joined on&nbsp;&nbsp; <%= new Date(userDetails.createdOn).toLocaleDateString("en-US", { 
-              year: "numeric", month: "long", day: "numeric" 
-            }) %> </span>
           <p class="card-text ps-3 mt-2">
             <%= userDetails.about.introduction %>
           </p>
@@ -51,13 +47,20 @@
         <div class="mt-4">
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              <i class="fa-solid fa-house"></i>&nbsp;&nbsp; Lives in <%= userDetails.address.city %>, <%= userDetails.address.state %>, <%= userDetails.address.country %>
+              <i class="fa-solid fa-house"></i><span>&nbsp;&nbsp; Lives in <%= userDetails.address.city %>, <%= userDetails.address.state %>, <%= userDetails.address.country %></span>
             <li class="list-group-item">
-              <i class="fa-solid fa-globe"></i>&nbsp;&nbsp; Speaks <%= userDetails.about.languages %>
+              <i class="fa-solid fa-globe"></i><span>&nbsp;&nbsp; Speaks <%= userDetails.about.languages %></span>
             </li>
             <li class="list-group-item">
-              <i class="fa-solid fa-briefcase"></i>&nbsp;&nbsp; Work: <%= userDetails.about.profession %>
+              <i class="fa-solid fa-briefcase"></i><span>&nbsp;&nbsp; Work: <%= userDetails.about.profession %></span>
             </li>
+            <li class="list-group-item">
+              <i class="fa-solid fa-clock"></i>
+              <span class=""
+            >&nbsp;&nbsp;Joined on&nbsp;&nbsp; <%= new Date(userDetails.createdOn).toLocaleDateString("en-US", { 
+              year: "numeric", month: "long", day: "numeric" 
+            }) %> </span>
+              </li>
           </ul>
         </div>
       </div>

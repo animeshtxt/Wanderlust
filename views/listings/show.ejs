@@ -11,10 +11,10 @@
         <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
         
         <div class="card-body">
-            <p class="card-text mt-1">Hosted by <i>@<%= listing.owner.username %></i></p> 
+            <p class="card-text mt-1">Hosted by <a href="/profile/<%= listing.owner.username %>" class="text-decoration-none"><i>@<%= listing.owner.username %></i></a></p> 
             <p class="card-text"><%= listing.description %> </p>
-            <p class="card-text"> &#8377; <%= listing.price.toLocaleString("en-IN") %> </p><p class="card-text">
-                <%= listing.location%> </p> <p class="card-text">
+            <p class="card-text"><i class="fa-solid fa-credit-card"></i>&nbsp;&nbsp; &#8377; <%= listing.price.toLocaleString("en-IN") %> /night </p><p class="card-text"><i class="fa-solid fa-location-dot"></i>&nbsp;&nbsp;
+                <%= listing.location%> </p> <p class="card-text"><i class="fa-solid fa-earth-americas">&nbsp;&nbsp;</i>
                 <%= listing.country %> </p> 
             </p>
         </div>
@@ -66,7 +66,7 @@
             <%  for(review of listing.reviews){ %>
                 <div class="card col-8 offset-2 col-sm-5 m-1 " style="background-color: #f3f0f0;">
                     <div class="card-body ">
-                    <p>By @<i><%= review.author.username %></i></p>
+                    <p>By <i><a href="/profile/s<%= review.author.username %> %>" class="text-decoration-none"><i>@<%= review.author.username %></i></a></i></p>
                     <h6 class="card-subtitle mb-2 text-body-secondary"><%= review.comment %></h6>
                     <p class="starability-result " data-rating="<%= review.rating %>"></p>
                     </div>
