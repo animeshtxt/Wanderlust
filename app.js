@@ -23,8 +23,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const multer = require("multer");
 const upload = multer({ dest: "listing images/" });
+const AdminControl = require("./models/admin.js");
 
-// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+// const DB_URL = "mongodb://127.0.0.1:27017/wanderlust";
 const DB_URL = process.env.ATLAS_DB_URL;
 
 const store = MongoStore.create({

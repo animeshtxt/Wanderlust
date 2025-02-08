@@ -7,7 +7,24 @@ const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 const cloudinary = require("../cloudConfig.js");
 
 module.exports.showAllListings = async (req, res) => {
-  let allListings = await Listing.find({});
+  let { field, tag } = req.query;
+  let allListings = [];
+  if (!field && tag) {
+    // console.log(tag);
+    allListings = await Listing.find({
+      $or: [
+        { country: { $regex: tag, $options: "i" } }, // Case-insensitive search for country
+        { location: { $regex: tag, $options: "i" } }, // Case-insensitive search for location
+        { tags: { $regex: tag, $options: "i" } }, // Case-insensitive search for tag
+      ],
+    });
+  } else if (field) {
+    allListings = await Listing.find({ tags: { $regex: tag, $options: "i" } });
+  } else {
+    allListings = await Listing.find();
+  }
+
+  // let allListings = await Listing.find({});
   res.render("./listings/index.ejs", { allListings });
 };
 
@@ -73,7 +90,17 @@ module.exports.editListingForm = async (req, res) => {
 
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
-  let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  // let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  let listing = await Listing.findById(id);
+  console.log(listing);
+  // Handle tags (convert comma-separated string to an array of strings)
+  if (req.body.listing.tags) {
+    let tags = req.body.listing.tags.split(",").map((tag) => tag.trim());
+    listing.tags = tags; // Assign the parsed tags to the listing object
+  }
+
+  // Update other fields
+  listing = Object.assign(listing, req.body.listing);
   const locResponse = await geocodingClient
     .forwardGeocode({
       query: req.body.listing.location,

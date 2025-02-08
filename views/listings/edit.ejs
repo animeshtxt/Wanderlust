@@ -90,8 +90,41 @@
         />
         <div class="invalid-feedback">Enter a valid location.</div>
       </div>
+      <div class="mb-3">
+        <label for="tags" class="form-label">Tags: </label>
+        <input
+          class="form-control"
+          id="tags"
+          name="listing[tags]"
+          type="text"
+          value="<%= listing.tags.join(',') %>"
+          data-role="tagsinput"
+        />
+      </div>
+
       <button class="btn btn-dark add-btn">Save</button>
       <br /><br />
     </form>
   </div>
 </div>
+<script>
+  $(document).ready(function () {
+    // Available predefined tags
+    var availableTags = [
+      "Technology",
+      "Fashion",
+      "Health",
+      "Food",
+      "Sports",
+      "Travel",
+      "Education",
+    ];
+
+    // Initialize the tags input with typeahead (autocomplete) functionality
+    $("#tags").tagsinput({
+      typeahead: {
+        source: availableTags,
+      },
+    });
+  });
+</script>
