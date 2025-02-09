@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Review = require("./review.js");
+const User = require("./user.js");
 const { valid, required } = require("joi");
 const cloudinary = require("cloudinary").v2;
 const listingSchema = new Schema({
@@ -49,6 +50,25 @@ const listingSchema = new Schema({
       required: true,
     },
   },
+  renters: [
+    {
+      renterId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User", // Reference another collection (optional)
+        required: true,
+      },
+      duration: {
+        from: {
+          type: Date,
+        },
+        to: {
+          type: Date,
+        },
+        days: { type: Number },
+      },
+      rent: { type: Number },
+    },
+  ],
 });
 
 listingSchema.post("findOneAndDelete", async (listing) => {

@@ -96,6 +96,21 @@ const userSchema = new Schema({
       default: null,
     },
   },
+  myBookings: [
+    {
+      listingId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Listing", // Reference another collection (optional)
+        required: true,
+      },
+      duration: {
+        from: { type: Date, required: true },
+        to: { type: Date, required: true },
+        days: { type: Number },
+      },
+      rent: { type: Number },
+    },
+  ],
 });
 
 userSchema.plugin(passportLocalMongoose);

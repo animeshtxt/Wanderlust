@@ -1,4 +1,5 @@
 const Listing = require("../models/listing");
+const User = require("../models/user");
 const { listingsSchema } = require("../schema");
 const mapToken = process.env.MAP_TOKEN;
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
@@ -15,7 +16,8 @@ module.exports.showAllListings = async (req, res) => {
       $or: [
         { country: { $regex: tag, $options: "i" } }, // Case-insensitive search for country
         { location: { $regex: tag, $options: "i" } }, // Case-insensitive search for location
-        { tags: { $regex: tag, $options: "i" } }, // Case-insensitive search for tag
+        { tags: { $regex: tag, $options: "i" } },
+        { title: { $regex: tag, $options: "i" } }, // Case-insensitive search for tag
       ],
     });
   } else if (field) {
@@ -65,7 +67,8 @@ module.exports.showListing = async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id)
     .populate({ path: "reviews", populate: { path: "author" } })
-    .populate("owner");
+    .populate("owner")
+    .populate({ path: "renters.renterId" });
   // console.log(listing);
   if (!listing) {
     req.flash("error", "Listing you requestd for does not exist");
@@ -127,4 +130,45 @@ module.exports.destroyListing = async (req, res) => {
   console.log(deletedListing);
   req.flash("success", "Listing Deleted !");
   res.redirect("/listings");
+};
+
+module.exports.bookListing = async (req, res) => {
+  try {
+    const { listingId, renterId, fromDate, toDate, days, rentAmount } =
+      req.body;
+
+    // Validate Listing and Renter
+    const listing = await Listing.findById(listingId);
+    const renter = await User.findById(renterId);
+    if (!listing || !renter) {
+      req.flash("error", "Invalid listing or renter");
+      return res.redirect(`/listings/${listingId}`);
+    }
+
+    // Create new renter entry
+    const newRenter = {
+      renterId,
+      duration: { from: new Date(fromDate), to: new Date(toDate), days: days },
+      rent: rentAmount,
+    };
+
+    const bookedListing = {
+      listingId,
+      duration: { from: new Date(fromDate), to: new Date(toDate), days: days },
+      rent: rentAmount,
+    };
+
+    // Push to "renters" array and save
+    listing.renters.push(newRenter);
+    renter.myBookings.push(bookedListing);
+    await listing.save();
+    await renter.save();
+
+    req.flash("success", "Booking successful!");
+    res.redirect(`/listings/${listingId}`);
+  } catch (error) {
+    console.error(error);
+    req.flash("error", "Something went wrong.");
+    res.redirect("/listings");
+  }
 };

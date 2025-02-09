@@ -41,6 +41,29 @@ module.exports.isReviewAuthor = async (req, res, next) => {
   next();
 };
 
+module.exports.isRenter = async (req, res, next) => {
+  // return console.log(res.locals.currUser);
+  let { id } = req.params;
+  let listing = await Listing.findById(id);
+  if (!listing) {
+    req.flash("error", "Listing not found");
+    return res.redirect("/listings");
+  }
+
+  // Check if the current user is a renter for this listing
+  const isRenter = listing.renters.some(
+    (renter) =>
+      renter.renterId._id.toString() === res.locals.currUser._id.toString()
+  );
+
+  if (!isRenter) {
+    req.flash("error", "You are not a renter of this listing");
+    return res.redirect("/listings");
+  }
+
+  next();
+};
+
 module.exports.validateListing = (req, res, next) => {
   let { error } = listingsSchema.validate(req.body);
   if (error) {

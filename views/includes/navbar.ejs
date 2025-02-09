@@ -1,7 +1,7 @@
 <nav
   class="navbar navbar-expand-sm bg-body-light border-bottom sticky-top mb-2"
 >
-  <div class="container-fluid">
+  <div class="container-fluid justify-content-end">
     <a class="navbar-brand" href="/listings"
       ><i class="fa-regular fa-compass"></i
     ></a>
@@ -69,7 +69,7 @@
           <a class="nav-link m-2" href="/signup"><b>Sign up</b></a>
         </li>
         <% } %> <% if (currUser) { %>
-        <p>
+        <p class="text-nowrap">
           <img
             src="<%= currUser.profileImage.url %>"
             alt=""
@@ -92,10 +92,14 @@
         </li>
         <!-- <li>
           <a class="nav-link" href="/profile?q=listings">My Listings</a>
-        </li>
-        <li>
-          <a class="nav-link" href="/profile?q=bookings">My Bookings</a>
         </li> -->
+        <li class="mt-1">
+          <a
+            class="nav-link"
+            href="/profile/<%= currUser.username %>?q=my-bookings"
+            >My Bookings</a
+          >
+        </li>
         <hr />
         <li>
           <a class="nav-link" href="/logout" style="color: red !important"

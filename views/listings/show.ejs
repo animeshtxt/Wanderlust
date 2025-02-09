@@ -2,6 +2,7 @@
 <script>
     let mapToken = "<%= process.env.MAP_TOKEN %>";
     const listing = <%- JSON.stringify(listing) %>;
+    // console.log(listing);
 </script>
 <div class="row mt-3">
     <div class="col-10 col-sm-6 offset-1 offset-sm-3">
@@ -29,8 +30,43 @@
             </form>
         </div>
         <% } %>
+        <br>
+        
         <div class="col-10 col-sm-6 offset-1 offset-sm-3 mb-3">
-            <% if(currUser){ %>
+            <% if(currUser ) {%>
+            <hr>
+            <form novalidate class="needs-validation" action="/listings/book" method="POST"
+                >
+                <h4>Book for a visit</h4>
+                <div class="mb-3">
+                    <input type="hidden" name="listingId" value="<%= listing._id %>">
+                    <input type="hidden" name="renterId" value="<%= currUser._id %>">
+                    <input type="hidden" name="rentAmount" id="rent-amount" value="<%= listing.price %>">
+                    <input type="hidden" name="days" id="rent-days" value=null>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="from-date" class="form-label" >Check-in: </label>
+                  <input type="date" class="form-control" id="from-date" name="fromDate" required>
+                  <div class="invalid-feedback">Please provide a date.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="to-date" class="form-label">Check-out:</label>
+                  <input type="date" class="form-control" id="to-date" name="toDate" required>
+                  <div class="invalid-feedback">Please provide a date.</div>
+                </div>
+                <div class="mb-3">
+                    <p id="fare-display">Total Amount : ₹0 </p>
+                  </div>
+                <button type="submit" class="btn btn-success">Confirm</button>
+              </form>
+              <% }else{%>
+                <p><a href="/login" class="text-decoration-none">Login</a> to book this listing.</p>
+                <%  } %>
+        </div>
+        
+        <div class="col-10 col-sm-6 offset-1 offset-sm-3 mb-3">
+            <% if(currUser && listing.renters.some(renter => renter.renterId._id.toString() === currUser._id.toString())){ %>
             <hr>
             <h4>Leave a Review</h4>
             <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
@@ -58,32 +94,116 @@
                 <button class="btn btn-outline-dark">Submit</button>
             </form>
             <% } %>
-            
-            
-            <% if(listing.reviews.length > 0) {%>
-            <hr><h4>All Reviews</h4>
+        </div>
+       
+        <div class="col-10 col-sm-6 offset-1 offset-sm-3 mb-3">
+          <hr>
+            <p>Where you'll be</p>
+            <div id="map" ></div>
+        </div>  
+        <% if(currUser && currUser._id.equals(listing.owner._id) && listing.renters.length != 0 ) {%>   
+        <div class="col-10 col-sm-6 offset-1 offset-sm-3 mb-3">
+          <h3>All renters</h3>
+          <% for(renter of listing.renters) {%>
+            <div class="card mb-3 p-2" style="max-width: 18rem;">
+              <div class="card-header d-flex align-items-center"><h5 class="card-title m-0"><%=renter.renterId.fullName %></h5></div>
+              <div class="card-body">
+                <p class="card-text "><a class="text-decoration-none" href="/profile/<%= renter.renterId.username %>">@<%=renter.renterId.username %></a></p>
+                <p class="card-text">From: <%=renter.duration.from.toLocaleDateString("en-GB").replace(/\//g, "-") %></p>
+                <p class="card-text">To: <%=renter.duration.to.toLocaleDateString("en-GB").replace(/\//g, "-") %></p>
+                <p class="card-text">Duration: <%=renter.duration.days %> Days</p>
+                <p class="card-text">Total Rent : &#8377; <%=renter.rent.toLocaleString("en-IN") %></p>
+                
+                 <!-- Displaying reviews specific to this renter -->
+          <% let renterReview = listing.reviews.find(review => review.author._id.toString() === renter.renterId._id.toString()) %>
+          
+          <% if (renterReview) { %>
+            <p class="starability-result" data-rating="<%= renterReview.rating %>"></p>
+            <h6 class="card-subtitle mb-2 text-body-secondary"><%= renterReview.comment %></h6>
+          <% } else { %>
+            <p><i>No review yet.</i> </p>
+          <% } %>
+                  
+                  
+              </div>
+            </div>
+            <% } %>
+        </div> 
+        <% } %>
+
+        
+          <% if(listing.reviews.length > 0) {%>
+            <div class="col-10 col-sm-6 offset-1 offset-sm-3 mb-3">
+            <hr>
+            <h4>All Reviews</h4>
             <div class="row "> 
             <%  for(review of listing.reviews){ %>
                 <div class="card col-8 offset-2 col-sm-5 m-1 " style="background-color: #f3f0f0;">
                     <div class="card-body ">
-                    <p>By <i><a href="/profile/<%= review.author.username %> %>" class="text-decoration-none"><i>@<%= review.author.username %></i></a></i></p>
+                    <p>By <i><a href="/profile/<%= review.author.username %>" class="text-decoration-none"><i>@<%= review.author.username %></i></a></i></p>
                     <h6 class="card-subtitle mb-2 text-body-secondary"><%= review.comment %></h6>
                     <p class="starability-result " data-rating="<%= review.rating %>"></p>
                     </div>
                     <% if(currUser && currUser._id.equals(review.author._id)) {%>
-                    <form action="/listings/<%=listing._id %>/reviews/<%=review._id%>?_method=DELETE" method="POST"><button class="btn btn-sm btn-dark m-1">Delete</button></form>
+                    <form action="/listings/<%=listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST"><button class="btn btn-sm btn-dark m-1">Delete</button></form>
                     <% } %>
                 </div>
             
             <% } %>
             </div>
+          </div>
             <% } %>
-        </div>
-        <div class="col-10 col-sm-6 offset-1 offset-sm-3 mb-3">
-            <p>Where you'll be</p>
-            <div id="map" ></div>
-        </div>        
-      
+        
     
 </div>
 <script src="/js/map.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    let fromDate = document.getElementById("from-date");
+    let toDate = document.getElementById("to-date");
+    let fareDisplay = document.getElementById("fare-display");
+    let farePerDay = listing.price;
+    let rentAmount = document.getElementById("rent-amount");
+    let rentDays = document.getElementById("rent-days");
+
+    // Set the "From Date" to today
+    let today = new Date();
+    let todayFormatted = today.toISOString().split("T")[0];
+    fromDate.setAttribute("min", todayFormatted);
+
+    // Set the "To Date" to tomorrow
+    let tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    let minToDate = tomorrow.toISOString().split("T")[0];
+    toDate.setAttribute("min", minToDate);
+
+    // Update "To Date" whenever "From Date" changes
+    fromDate.addEventListener("change", function () {
+      let selectedFromDate = new Date(fromDate.value);
+      selectedFromDate.setDate(selectedFromDate.getDate() + 1); // Ensure To Date is at least one day later
+      let newMinToDate = selectedFromDate.toISOString().split("T")[0];
+      toDate.setAttribute("min", newMinToDate);
+    });
+    toDate.addEventListener("change", function () {
+      calculateFare();
+    });
+
+    function calculateFare() {
+      if (fromDate.value && toDate.value) {
+        let startDate = new Date(fromDate.value);
+        let endDate = new Date(toDate.value);
+        let timeDifference = endDate - startDate;
+        let daysBooked = timeDifference / (1000 * 60 * 60 * 24); // Convert milliseconds to days
+
+        if (daysBooked > 0) {
+          let totalFare = daysBooked * farePerDay;
+          fareDisplay.innerText = `Total Amount: ₹ ${totalFare.toLocaleString("en-IN")}`;
+          rentAmount.value = totalFare;
+          rentDays.value = daysBooked;
+        } else {
+          fareDisplay.innerText = "Total Amount: ₹0";
+        }
+      }
+    }
+});
+</script>

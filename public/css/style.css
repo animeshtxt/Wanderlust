@@ -224,3 +224,9 @@ body {
   border: none;
   background-color: transparent;
 }
+
+@media screen and (max-width: 340px) {
+  #navbarNavAltMarkup a {
+    font-size: 0.7rem !important;
+  }
+}

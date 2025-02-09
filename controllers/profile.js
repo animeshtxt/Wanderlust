@@ -3,14 +3,34 @@ const User = require("../models/user");
 const cloudinary = require("cloudinary").v2;
 
 module.exports.showProfile = async (req, res) => {
-  console.log("req for profile");
+  let { q } = req.query;
+  if (q === "my-bookings") {
+    try {
+      const { username } = req.params;
+      const userDetails = await User.findOne({ username })
+        .populate({
+          path: "myBookings.listingId", // Populate listing details
+        })
+        .lean();
+      if (!userDetails) {
+        return res.status(404).send("User not found");
+      }
+      // console.log(userDetails);
+
+      res.render("profile/bookings.ejs", { userDetails });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+  // console.log("req for profile");
   try {
     const { username } = req.params;
     const userDetails = await User.findOne({ username });
     if (!userDetails) {
       return res.status(404).send("User not found");
     }
-    console.log(userDetails);
+    // console.log(userDetails);
     const userListings = await Listing.find({ owner: userDetails._id });
     res.render("profile/profile.ejs", { userDetails, userListings });
   } catch (error) {
@@ -52,6 +72,7 @@ module.exports.updateProfile = async (req, res) => {
       updatedUser.profileImage = { url, filename };
       await updatedUser.save();
       if (
+        oldFilename &&
         updatedUser.profileImage &&
         updatedUser.profileImage.filename &&
         updatedUser.profileImage.filename != oldFilename
