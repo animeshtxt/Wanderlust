@@ -1,2 +1,2 @@
 # WANDERLUST
-  A fullstack website for short-term and long-term homestays marketplace.
+  A fullstack website for property listing and rentals.
