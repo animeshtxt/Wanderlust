@@ -1,0 +1,92 @@
+<% layout("/layouts/boilerplate") %>
+<div class="row">
+  <h2 class="col-8 offset-2 mt-2">Forgot Password</h2>
+  <div class="col-8 offset-2 mt-1">
+    <form
+      action="/resetPw/pwresettoken?_method=PUT"
+      method="POST"
+      novalidate
+      class="needs-validation"
+    >
+      <div class="mb-3">
+        <label for="username" class="form-label">Username:</label>
+        <input
+          type="text"
+          name="username"
+          placeholder="Enter username"
+          id="username"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please enter username.</div>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">New password:</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Enter new password"
+          id="password"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please enter new password.</div>
+      </div>
+      <div class="mb-3">
+        <label for="username" class="form-label">Confirm new password:</label>
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm new password"
+          id="confirm-password"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please confirm password.</div>
+      </div>
+      <div class="mb-3">
+        <label for="otp" class="form-label">Enter OTP:</label>
+        <input
+          type="number"
+          name="otp"
+          placeholder="Enter 6 digits OTP"
+          pattern="[0-9]{6}"
+          id="otp"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please enter otp.</div>
+      </div>
+
+      <button class="btn btn-success">Submit</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const username = document.getElementById("username");
+  const password = document.getElementById("password");
+  const confirmPassword = document.getElementById("confirm-password");
+  const otp = document.getElementById("otp");
+  const form = document.querySelector("form");
+  form.addEventListener("submit", function (event) {
+    // event.preventDefault(); // Prevent form submission for validation
+    if (
+      !username.value.length ||
+      password.value.length == 0 ||
+      confirmPassword.value.length == 0 ||
+      otp.value.length == 0
+    ) {
+      event.preventDefault();
+      alert("All fields are required!");
+    } else if (password.value !== confirmPassword.value) {
+      event.preventDefault();
+      alert("Passwords do not match!");
+    } else if (otp.value.length < 6) {
+      event.preventDefault();
+      alert("OTP must be 6 digits long!");
+    } else {
+      form.submit(); // Submit the form if validation passes
+    }
+  });
+</script>

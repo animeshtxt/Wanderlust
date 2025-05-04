@@ -30,3 +30,4 @@ Thumbs.db
 # Ignore package-lock.json or yarn.lock if you prefer
 # package-lock.json
 # yarn.lock
+notes.md

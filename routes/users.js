@@ -24,4 +24,8 @@ router
 
 router.get("/logout", userControllers.logout);
 
+router
+  .get("/forgotPw", userControllers.renderForgotPwForm)
+  .put("/resetPw/:pwtoken", userControllers.updatePw);
+
 module.exports = router;
