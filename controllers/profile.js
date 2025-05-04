@@ -17,10 +17,10 @@ module.exports.showProfile = async (req, res) => {
       }
       // console.log(userDetails);
 
-      res.render("profile/bookings.ejs", { userDetails });
+      return res.render("profile/bookings.ejs", { userDetails });
     } catch (error) {
       console.error(error);
-      res.status(500).send("Internal Server Error");
+      return res.status(500).send("Internal Server Error");
     }
   }
   // console.log("req for profile");
@@ -32,10 +32,10 @@ module.exports.showProfile = async (req, res) => {
     }
     // console.log(userDetails);
     const userListings = await Listing.find({ owner: userDetails._id });
-    res.render("profile/profile.ejs", { userDetails, userListings });
+    return res.render("profile/profile.ejs", { userDetails, userListings });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
   }
 };
 

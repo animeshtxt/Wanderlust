@@ -42,14 +42,56 @@
           placeholder="Enter image URL/Link"
           id="image"
           class="form-control"
+          accept=".jpg, .jpeg, .png, .webp"
         />
       </div>
+      <div class="mb-3 d-none" id="listingImage">
+        <span class="position-relative" style="display: inline-block">
+          <img
+            id="listingImagePreview"
+            class="edit-img img-fluid mt-2"
+            style="max-width: 200px"
+          />
+          <i
+            class="fa-solid fa-xmark"
+            style="
+              position: absolute;
+              top: -5px;
+              right: -15px;
+              font-size: 20px;
+              color: white;
+              background-color: rgba(0, 0, 0, 0.521);
+              border-radius: 50%;
+              height: 30px;
+              width: 30px;
+              text-align: center;
+              padding: 5px;
+              cursor: pointer;
+            "
+            onclick="document.getElementById('listingImage').classList.add('d-none'); document.getElementById('image').value = '';"
+          ></i>
+        </span>
+      </div>
+      <script>
+        $("#image").change(function () {
+          const file = this.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              $("#listingImagePreview").attr("src", e.target.result);
+            };
+            reader.readAsDataURL(file);
+            $("#listingImage").removeClass("d-none");
+            $("#listingImage").addClass("d-block");
+          }
+        });
+      </script>
       <div class="row">
         <div class="mb-3 col-md-4">
           <label for="price" class="form-label">Price:</label>
           <input
             type="number"
-            placeholder="price"
+            placeholder="Price"
             name="listing[price]"
             id="price"
             class="form-control"

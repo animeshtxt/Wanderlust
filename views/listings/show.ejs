@@ -158,7 +158,7 @@
 </div>
 <script src="/js/map.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
     let fromDate = document.getElementById("from-date");
     let toDate = document.getElementById("to-date");
     let fareDisplay = document.getElementById("fare-display");
@@ -166,24 +166,30 @@
     let rentAmount = document.getElementById("rent-amount");
     let rentDays = document.getElementById("rent-days");
 
-    // Set the "From Date" to today
+    // Set "From Date" to today
     let today = new Date();
     let todayFormatted = today.toISOString().split("T")[0];
     fromDate.setAttribute("min", todayFormatted);
 
-    // Set the "To Date" to tomorrow
-    let tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-    let minToDate = tomorrow.toISOString().split("T")[0];
-    toDate.setAttribute("min", minToDate);
+    // Disable "To Date" initially
+    toDate.disabled = true;
 
-    // Update "To Date" whenever "From Date" changes
+    // Enable "To Date" and set minimum date when "From Date" is selected
     fromDate.addEventListener("change", function () {
-      let selectedFromDate = new Date(fromDate.value);
-      selectedFromDate.setDate(selectedFromDate.getDate() + 1); // Ensure To Date is at least one day later
-      let newMinToDate = selectedFromDate.toISOString().split("T")[0];
-      toDate.setAttribute("min", newMinToDate);
+      if (fromDate.value) {
+        let selectedFromDate = new Date(fromDate.value);
+        selectedFromDate.setDate(selectedFromDate.getDate() + 1); // Ensure To Date is at least one day later
+        let newMinToDate = selectedFromDate.toISOString().split("T")[0];
+
+        toDate.removeAttribute("disabled"); // Enable "To Date"
+        toDate.setAttribute("min", newMinToDate);
+      } else {
+        toDate.value = ""; // Clear To Date if From Date is cleared
+        toDate.disabled = true; // Disable To Date
+      }
     });
+
+    // Calculate Fare when "To Date" changes
     toDate.addEventListener("change", function () {
       calculateFare();
     });
@@ -205,5 +211,5 @@
         }
       }
     }
-});
+  });
 </script>

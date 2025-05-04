@@ -41,6 +41,7 @@
           class="edit-img"
         />
       </div>
+
       <div class="mb-3">
         <label for="image" class="form-label"
           >Upload New Listing Image :
@@ -49,9 +50,35 @@
           id="image"
           class="form-control"
           type="file"
+          accept=".png, .jpg, .jpeg"
           name="listing[image]"
+          title="Only .png, .jpg, .jpeg files are allowed"
         />
       </div>
+      <div class="mb-3 d-none" id="preview-container">
+        <span class="position-relative" style="display: inline-block">
+          <img src="" alt="new_listing_image" class="edit-img" id="preview" />
+          <i
+            class="fa-solid fa-xmark"
+            style="
+              position: absolute;
+              top: -10px;
+              right: -10px;
+              font-size: 20px;
+              color: white;
+              background-color: rgba(0, 0, 0, 0.521);
+              border-radius: 50%;
+              height: 30px;
+              width: 30px;
+              text-align: center;
+              padding: 5px;
+              cursor: pointer;
+            "
+            onclick="document.getElementById('preview-container').classList.add('d-none'); document.getElementById('image').value = '';"
+          ></i>
+        </span>
+      </div>
+
       <div class="row">
         <div class="mb-3 col-md-4">
           <label for="price" class="form-label">Price:</label>
@@ -125,6 +152,20 @@
       typeahead: {
         source: availableTags,
       },
+    });
+
+    // Image preview functionality
+    $("#image").change(function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          $("#preview").attr("src", e.target.result);
+        };
+        reader.readAsDataURL(file);
+        $("#preview-container").removeClass("d-none");
+        $("#preview-container").addClass("d-block");
+      }
     });
   });
 </script>

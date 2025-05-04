@@ -137,6 +137,13 @@ module.exports.bookListing = async (req, res) => {
     const { listingId, renterId, fromDate, toDate, days, rentAmount } =
       req.body;
 
+    const validDate =
+      new Date(fromDate) > Date.now() && new Date(fromDate) < new Date(toDate);
+    if (!validDate) {
+      console.log("Invalid date range");
+      req.flash("error", "Invalid date range");
+      return res.redirect(`/listings/${listingId}`);
+    }
     // Validate Listing and Renter
     const listing = await Listing.findById(listingId);
     const renter = await User.findById(renterId);

@@ -82,6 +82,7 @@
           src="<%= userDetails.profileImage.url %>"
           alt="userDetails_image"
           class="edit-img img-fluid mt-2"
+          style="max-width: 200px"
         />
       </div>
       <div class="mb-3">
@@ -92,8 +93,51 @@
           id="profileImage"
           class="form-control"
           type="file"
+          accept=".jpeg, .png, .jpg"
           name="user[profileImage]"
         />
+        <div class="mb-3 d-none" id="newProfileImage">
+          <span class="position-relative" style="display: inline-block">
+            <img
+              id="imagePreview"
+              class="edit-img img-fluid mt-2"
+              style="max-width: 200px"
+            />
+            <i
+              class="fa-solid fa-xmark"
+              style="
+                position: absolute;
+                top: -5px;
+                right: -15px;
+                font-size: 20px;
+                color: white;
+                background-color: rgba(0, 0, 0, 0.521);
+                border-radius: 50%;
+                height: 30px;
+                width: 30px;
+                text-align: center;
+                padding: 5px;
+                cursor: pointer;
+              "
+              onclick="document.getElementById('newProfileImage').classList.add('d-none'); document.getElementById('profileImage').value = '';"
+            ></i>
+          </span>
+        </div>
+
+        <script>
+          $("#profileImage").change(function () {
+            const file = this.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function (e) {
+                $("#imagePreview").attr("src", e.target.result);
+              };
+              reader.readAsDataURL(file);
+              $("#newProfileImage").removeClass("d-none");
+              $("#newProfileImage").addClass("d-block");
+            }
+          });
+        </script>
       </div>
       <div class="row">
         <div class="mb-3 col-md-8">
