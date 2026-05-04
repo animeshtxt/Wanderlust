@@ -15,7 +15,9 @@ module.exports.showProfile = async (req, res) => {
       if (!userDetails) {
         return res.status(404).send("User not found");
       }
-      // console.log(userDetails);
+      userDetails.myBookings = userDetails.myBookings.filter(
+        (booking) => booking.listingId !== null,
+      );
 
       return res.render("profile/bookings.ejs", { userDetails });
     } catch (error) {
@@ -63,7 +65,7 @@ module.exports.updateProfile = async (req, res) => {
     let updatedUser = await User.findOneAndUpdate(
       { username: username },
       { $set: updateData },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
     const oldFilename = updatedUser.profileImage.filename;
     if (typeof req.file !== "undefined") {
