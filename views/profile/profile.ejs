@@ -82,14 +82,14 @@
           <div class=" d-flex flex-wrap justify-content-between">
             <% for(let listing of userListings){ %>
             <a href="/listings/<%= listing._id %>" class="listing-link col-lg-4 col-sm-6 col-10 p-1">
-              <div class="card listing-card">
+              <div class="card listing-card shadow-lg">
                 <img
                   src="<%= listing.image.url %> "
                   class="card-img-top"
                   alt="listing_image"
                   style="height: 20rem"
                 />
-                <div class="card-img-overlay">fhfdgjfngdjbng</div>
+               <%#<div class="card-img-overlay">fhfdgjfngdjbng</div> %>
 
                 <div class="card-body">
                   <p class="card-text">

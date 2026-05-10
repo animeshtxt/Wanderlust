@@ -62,17 +62,27 @@ body {
 
 .listing-card {
   border: none !important;
+  /* border-radius: 1rem 1rem 0 0 !important; */
   margin-bottom: 2rem;
+  transition: transform 0.5s ease-in-out;
+}
+.listing-card-home {
+  transition: transform 0.3s ease-in-out;
 }
 
+.listing-card-home:hover {
+  /* box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.5); */
+  /* box-shadow: 5px 5px 5px grey; */
+  transform: scale(1.05);
+}
 .card-img-top {
-  border-radius: 1rem !important;
+  /* border-radius: 1rem 1rem 0 0 !important; */
   width: 100% !important;
   object-fit: cover !important;
 }
 
 .card-body {
-  padding: 0 !important;
+  padding: 5px !important;
 }
 
 .card-text p {
